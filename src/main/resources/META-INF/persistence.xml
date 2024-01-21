@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence xmlns="http://java.sun.com/xml/ns/persistence">
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.2">
     <persistence-unit name="jpastart">
+        <class>com.jpa.model.Member</class>
         <properties>
             <!-- 필수 속성! -->
             <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
