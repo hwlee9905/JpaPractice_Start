@@ -10,7 +10,6 @@ import java.util.List;
 
 @SpringBootApplication
 public class JpaStartApplication {
-
 	public static void main(String[] args) {
 
 		SpringApplication.run(JpaStartApplication.class, args);
