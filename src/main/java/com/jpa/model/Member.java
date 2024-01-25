@@ -3,6 +3,7 @@ package com.jpa.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
