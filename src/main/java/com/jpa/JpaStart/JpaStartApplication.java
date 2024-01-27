@@ -1,17 +1,19 @@
 package com.jpa.JpaStart;
 
 import com.jpa.model.Member;
+import com.jpa.model.Team;
 import jakarta.persistence.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.List;
 
 
+@Slf4j
 @SpringBootApplication
 public class JpaStartApplication {
 	public static void main(String[] args) {
-
 		SpringApplication.run(JpaStartApplication.class, args);
 		//엔티티 매니저 팩토리 생성
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpastart");
@@ -19,8 +21,8 @@ public class JpaStartApplication {
 		EntityTransaction tx = em.getTransaction(); //트랜잭션 기능 획득
 		try {
 			tx.begin(); //트랜잭션 시작
-			logic(em);  //비즈니스 로직
-			tx.commit();
+			queryLogicJoin(em);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			tx.rollback(); //트랜잭션 롤백
@@ -29,30 +31,59 @@ public class JpaStartApplication {
 		}
 		emf.close(); //엔티티 매니저 팩토리 종료
 	}
-	public static void logic(EntityManager em) {
+//	public static void logic(EntityManager em) {
+//
+//		String id = "id1";
+//		Member member = new Member();
+//		member.setId(id);
+//		member.setUsername("지한");
+//		member.setAge(2);
+//
+//		//등록
+//		em.persist(member);
+//
+//		//수정
+//		member.setAge(20);
+//
+//		//한 건 조회
+//		Member findMember = em.find(Member.class, id);
+//		System.out.println("findMember=" + findMember.getUsername() + ", age=" + findMember.getAge());
+//
+//		//목록 조회
+//		List<Member> members = em.createQuery("select m from Member m", Member.class).getResultList();
+//		System.out.println("members.size=" + members.size());
+//
+//		//삭제
+//		em.remove(member);
+//		em.setFlushMode(FlushModeType.COMMIT);
+//
+//
+//	}
+	private static void testSave(EntityManager em) {
+		//팀1 저장
+		Team team1 = new Team("team1", "팀1");
+		em.persist(team1);
 
-		String id = "id1";
-		Member member = new Member();
-		member.setId(id);
-		member.setUsername("지한");
-		member.setAge(2);
+		//회원1 저장
+		Member member1 = new Member("member1", "회원1");
+		member1.setTeam(team1); //연관관계 설정 member1 -> team1
+		em.persist(member1);
 
-		//등록
-		em.persist(member);
+		//회원2 저장
+		Member member2 = new Member("member2", "회원2");
+		member2.setTeam(team1); //연관관계 설정 member2 -> team1
+		em.persist(member2);
+	}
 
-		//수정
-		member.setAge(20);
+	private static void queryLogicJoin(EntityManager em) {
+		String jpql = "select m from Member m join m.team t where t.name=:teamName";
 
-		//한 건 조회
-		Member findMember = em.find(Member.class, id);
-		System.out.println("findMember=" + findMember.getUsername() + ", age=" + findMember.getAge());
+		List<Member> resultList = em.createQuery(jpql, Member.class)
+				.setParameter("teamName", "팀1")
+				.getResultList();
 
-		//목록 조회
-		List<Member> members = em.createQuery("select m from Member m", Member.class).getResultList();
-		System.out.println("members.size=" + members.size());
-
-		//삭제
-		em.remove(member);
-		em.setFlushMode(FlushModeType.COMMIT);
+		for (Member member : resultList) {
+			log.info("[query] member.username = " + member.getUsername());
+		}
 	}
 }

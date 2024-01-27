@@ -2,6 +2,7 @@
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.2">
     <persistence-unit name="jpastart">
         <class>com.jpa.model.Member</class>
+        <class>com.jpa.model.Team</class>
         <properties>
             <!-- 필수 속성! -->
             <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
@@ -13,6 +14,7 @@
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/>
             <property name="hibernate.id.new_generator_mappings" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>
     </persistence-unit>
 </persistence>
