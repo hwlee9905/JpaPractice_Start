@@ -22,7 +22,11 @@ public class JpaStartApplication {
 		try {
 			tx.begin(); //트랜잭션 시작
 			queryLogicJoin(em);
-
+//			testSave(em);
+//			updateRelation(em);
+//			deleteRelation(em);
+			biDirection(em);
+			tx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			tx.rollback(); //트랜잭션 롤백
@@ -84,6 +88,28 @@ public class JpaStartApplication {
 
 		for (Member member : resultList) {
 			log.info("[query] member.username = " + member.getUsername());
+		}
+	}
+	private static void updateRelation(EntityManager em){
+		//새로운 팀2
+		Team team2 = new Team("team2", "팀2");
+		em.persist(team2);
+
+		//회원1에 새로운 팀2 설정
+		Member member = em.find(Member.class, "member1");
+		member.setTeam(team2);
+	}
+
+	private static void deleteRelation(EntityManager em) {
+		Member member1 = em.find(Member.class, "member1");
+		member1.setTeam(null);
+	}
+	private static void biDirection(EntityManager em) {
+		Team team = em.find(Team.class, "team1");
+		List<Member> members = team.getMembers(); //(팀 -> 회원)
+		//객체 그래프 탐색
+		for (Member member : members) {
+			log.info("member.username = " + member.getUsername());
 		}
 	}
 }

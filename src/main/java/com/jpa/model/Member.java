@@ -41,7 +41,7 @@ import java.util.Date;
 //    private String temp;
 //
 //}
-@Entity
+@Entity//다대일 단방향 Member, 다대일 양방향 Member
 @Getter
 @Setter
 public class Member {
