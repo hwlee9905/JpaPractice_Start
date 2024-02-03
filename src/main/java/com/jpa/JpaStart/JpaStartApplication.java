@@ -22,7 +22,7 @@ public class JpaStartApplication {
 		try {
 			tx.begin(); //트랜잭션 시작
 			queryLogicJoin(em);
-//			testSave(em);
+			testSave(em);
 //			updateRelation(em);
 //			deleteRelation(em);
 			biDirection(em);
