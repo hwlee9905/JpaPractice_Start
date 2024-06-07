@@ -3,23 +3,15 @@ package com.jpa.JpaStart;
 import com.jpa.model.Member;
 import com.jpa.model.Team;
 import jakarta.persistence.*;
-import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest
 @EntityScan( basePackages = {"com.jpa.model"} )
@@ -103,7 +95,6 @@ class JpaStartApplicationTests {
 		em.persist(member2);
 		member1.setTeam(team1); //연관관계 설정 member1 -> team1
 		member2.setTeam(team1); //연관관계 설정 member2 -> team1
-
 		team1.getMembers().add(member1); //연관관계 설정 team1 -> member1
 		team1.getMembers().add(member2); //연관관계 설정 team1 -> member2
 
